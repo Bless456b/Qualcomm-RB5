@@ -29,4 +29,4 @@ We welcome contributions from the community. If you have documentation, code sam
 
 ## License
 
-This project is licensed under the [License Name](LICENSE) - see the [LICENSE](LICENSE) file for details.
+This project is licensed under Tihan, IIT Hyderabad
