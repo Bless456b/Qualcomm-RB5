@@ -5,9 +5,9 @@ This repository contains documentation, code samples, and resources related to t
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
-- [Documentation](#documentation)
-- [Examples](#examples)
+- [Getting-started](https://github.com/Bless456b/Qualcomm-RB5/blob/main/getting%20started) 
+- [Documentation](/docs)
+- [Examples](/examples)
 - [Contributing](#contributing)
 - [License](#license)
 
