@@ -13,7 +13,7 @@ This repository contains documentation, code samples, and resources related to t
 
 ## Getting Started
 
-If you're new to the Qualcomm RB5 platform, start here to learn how to set up and use the platform.
+If you're new to the Qualcomm RB5 platform, start at [getting started].(/getting-started) to learn how to set up and use the platform.
 
 ## Documentation
 
