@@ -1,1 +1,86 @@
+Tflash (TurboX Flash) is an image burning tool developed by Thundercomm. It can be used to flash FlatBuild
+onto Thundercomm SOM modules.
+Tflash includes two versions: Windows graphical interface version and Ubuntu command-line version. This
+document will introduce the usage of the Ubuntu command-line version.
+Thundercomm releases the Ubuntu version of Tflash in the form of deb packages and integrates Tflash into
+the TurboX SOM SDK Manager (referred to as "sdkmanager") versions 18.04-3.2.0 and 20.04-1.2.0 onwards.
+Thundercomm has performed comprehensive testing on Tflash within sdkmanager, and thus it is
+recommended for users to use sdkmanager directly.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+FlatBuild is an image format released by Thundercomm, which can be flashed in EDL (Emergency Download)
+mode. When a device is unable to boot due to software issues, you can repair it by flashing FlatBuild.
+- 2 -Thundercomm TurboX Tflash for Ubuntu User Guide
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Chapter 2. Install Tflash
+2.1. Install sdkmanager (recommended)
+Thundercomm has integrated Tflash into sdkmanager and conducted thorough testing. Therefore, it is
+recommended for users to directly install sdkmanager. For detailed instructions, please refer to: TurboX SOM
+SDK Manager User Guide.
+Users need to install sdkmanager version 18.04-3.2.0, 20.04-1.2.0, or higher. If an older version of sdkmanager
+is being used, it needs to be upgraded to the new version.
+2.2. Install Tflash on PC
+Users can also install Tflash on their Ubuntu PC by following the steps below.
+2.2.1. Download Tflash installation package
+Download address:
+https://docs.thundercomm.com/turbox_doc/data/common/tools/thundercomm-tflash-ubuntu.deb
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.2.2. Install Tflash
+
+ NOTE: To download Tflash, you need to log in to https://docs.thundercomm.com. Only Thundercomm staff
+or users who have purchased Thundercomm products and signed the NDA (Non-Disclosure Agreement) are
+eligible to access the download.
+Download the Tflash installation package to your local folder and execute the following commands in the
+terminal of your Ubuntu PC:
+$ sudo dpkg -i Thundercomm-tflash-v1.0.0.deb
+ NOTE:：” v1.0.0 ” stands for the version number, which will change when a new version is released.
+Upon completion of installation, please execute the " tflash " command in the terminal. If the following
+interface appears, it indicates that Tflash has been successfully installed:
+Figure 2-1. Installation Success
+- 3 -Thundercomm TurboX Tflash for Ubuntu User Guide
+Chapter 3. Flash with Tflash
+3.1. Close serial terminal apps
+If the serial terminal app is open, it can lead to failure of flashing. Therefore, it is necessary to close any locally
+opened serial terminal app before proceeding with the flashing process, such as Minicom on PC.
+3.2. Enter 9008 mode
+Step 1. Power off the board by disconnecting the power cable and USB cable.
+Step 2. Press and hold the Force_USB_Boot button (or named “Force_USB” on certain development boards).
+Step 3. Connect the power cable to the board.
+Step 4. Long-press (3 seconds) the Power button on the board.
+Step 5. Connect the board to PC with a USB Type-C cable (or named “Micro USB cable” on certain development
+boards).
+Step 6. Wait for 3 seconds, and then release the Force_USB_Boot button.
+Step 7. Execute lsusb in the terminal. If the log shows a USB device with the port number 9008, it indicates a
+successful connection (see the figure below).
+Figure 3-1. Execution Result
+3.3. Enter FlatBuild directory in the terminal
+Figure 3-2. Enter FlatBuild Directory
+- 4 -Thundercomm TurboX Tflash for Ubuntu User Guide
+3.4. Flash with the tflash command
+Step 1. Stop ModemManager by executing “ sudo systemctl stop ModemManager ” in the host machine
+terminal.
+Step 2. Execute “ tflash ”.
+Step 3. When the prompt " Stop the ModemManager on your host PC and press Enter on your keyboard
+to continue… " appears on the screen, press the Enter key to proceed with the flashing process.
+Figure 3-3. Run tflash (sdkmanager Screen)
+- 5 -Thundercomm TurboX Tflash for Ubuntu User Guide
+If the following interface is displayed upon completion of tflash operation, it indicates a successful
+flashing process:
+Figure 3-4. Successful Flashing Interface
+ NOTE:
+ If you need to restart ModemManager, you can execute “ sudo systemctl start ModemManager ” upon
+completion of tflash operation.
+3.5. Restart the board
+ When running tflash on PC, you may need to enter your sudo password as prompted. However, when
+executing tflash within sdkmanager, it is unnecessary to enter the sudo password since it is set to be
+omitted.
+Step 1. After a successful flashing process, disconnect the USB cable and power cable from the board to power
+it off.
+Step 2. Reconnect the power cable, then press the Power button to turn on the board.
+ NOTE: You can confirm if the board has started up correctly by checking the UART log or using adb
+commands. For specific instructions, please refer to the user manual provided for your specific development
+board.
+- 6 -Thundercomm TurboX Tflash for Ubuntu User Guide
