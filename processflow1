@@ -1,0 +1,123 @@
+We are using 
+OS: Ubuntu 20.04.6 LTS
+Release:	20.04
+Codename:	focal
+
+HENCE FOLLOWING STEPS IN MANUAL README_Linux.txt
+STEP 1: For Docker users on any Ubuntu Desktop (18.04, 16.04, etc.), please follow the guide in "On Other Ubuntu Host" for all sections. 
+STEP 2: Enter a work directory with read-write permissions for sdkmanager. For Docker image user, create the work directory under /home/hostPC/.
+STEP 3: If you are using a Linux desktop to flash the device, please run the following command before connecting the device to the desktop -  $ sudo systemctl stop ModemManager
+STEP 4: Installing packages : 
+For Robotics RB5 LU2.0 and RB5N LU2.0 Platform (required OS: Ubuntu 20.04)#
+Required packages (minimum version): coreutils 8.30, fakechroot 2.19, fakeroot 1.24, kmod 27-1ubuntu2.1, libc6-arm64-cross 2.31, python 2.7.18, qemu-user-static 1:7.2+dfsg-5ubuntu1, udev 245.4-4ubuntu3.20, unzip 6.0, wget 1.20.3.
+    Run these commands to create soft links:
+    $ sudo rm -rf /lib/ld-linux-aarch64.so.1
+    $ sudo ln -sf /usr/aarch64-linux-gnu/lib/ld-2.31.so /lib/ld-linux-aarch64.so.1
+    $ sudo ln -sf /bin/bash /bin/sh
+    $ sudo dpkg -P qemu-user-static
+    $ wget http://archive.ubuntu.com/ubuntu/pool/universe/q/qemu/qemu-userstatic_6.2+dfsg-2ubuntu6_amd64.deb
+    $ sudo dpkg -i qemu-user-static_6.2+dfsg-2ubuntu6_amd64.deb
+STEP 5:  Install the dependency libraries to the host computer
+   $ sudo apt-get install coreutils fakechroot fakeroot kmod libc6-arm64-cross python2.7 qemu-user-static wget udev openssh-server -y
+
+## Generate Ubuntu Docker Image ##
+NOTE: Different OS versions require different Docker images.
+#Robotics RB5 LU2.0 and RB5N LU2.0 Platform#
+For an Ubuntu 16.04 or 18.04 host, an Ubuntu 20.04 Docker image is required.
+
+#RB5LU1.0, RB6, RB1, and RB2 Platforms#
+For an Ubuntu 16.04 or 20.04 host, an Ubuntu 18.04 Docker image is required.
+
+STEP 6: Install qemu-user-static, openssh-server and udev to the host PC.
+   $sudo apt-get install qemu-user-static openssh-server udev -y
+   
+STEP 7: # Generate Ubuntu 18.04 docker image {since we are using 20.04 ubuntu)  
+   $ ln -sf Dockerfile_18.04 Dockerfile
+   $ sudo docker build -t ubuntu:18.04-sdkmanager .
+   
+STEP 8: On Ubuntu Docker 
+1. Create Docker container
+    # Ubuntu 18.04 docker image #
+    $ sudo docker run -v /home/${USER}:/home/hostPC/ --privileged -v /dev/:/dev -v
+    /run/udev:/run/udev -d --name sdkmanager_container -p 36000:22 ubuntu:18.04-sdkmanager
+    
+STEP 9: 2. Launch sdkmanager in Docker container
+$ sudo docker exec -it sdkmanager_container sdkmanager
+
+STEP 10: General
+1. Provide Thudercomm login credentials 
+	Credential Checking ...
+	Enter your Thundercomm username:
+	Enter your Thundercomm password:
+Provide a working directory when asked for target directory (for example "/home/user")
+
+Note: For Docker users, provide the work directory as /home/hostPC/[working directory]
+
+STEP 11: Select a desired product
+        Select your product:
+	1: RB1
+	2: RB2
+	3: RB5
+	4: RB5N(Non-Pop)
+	5: RB6
+	Select one number of product( 1 | 2 | 3 ...) to continue with:
+
+STEP 12: Select a desired platform for Robotics RBx device
+	Choose a platform for Robotics RBx device
+	Enter 1 to use LU platform, 2 to use LE platform:
+
+STEP 13: LU PLATFORM ##
+1. Type the number of available version for image repack, for example, "1"
+        You chose LU platform
+        Enter 1 to use LU1.0 platform, 2 to use LU2.0 platform:
+
+2. Type the number of available version for image repack, for example, "1"
+        You chose LU1.0 platform
+
+	Checking current version of release ...
+	Available versions: 
+	1: QRB5165.UBUN.x.x-xxxxxx (latest version)
+
+	Recommended version: QRB5165.UBUN.x.x-xxxxxx
+
+	Select one number of available version ( 1 ) to continue with: 
+
+STEP 14:Type "1" when below message was shown to start downloading LU resources and image repacking, or type "help" for more information
+
+	--------------------------------------------------------
+	SDK has been successfully set up and is ready to be used
+	Type 'help' for commands
+	--------------------------------------------------------
+	> help
+
+	commands:
+	help = Show usage help for LU platform
+	1 = Download LU resources and generate system.img with current release
+	2 = Flash full build (require system.img generation first)
+	q = exit sdk manager
+
+
+	You will see the following message once the images are built successfully
+	--------------------------------------------------------
+	Move sparse images to full_build ...done
+	You may proceed to flash full_build to your device
+	--------------------------------------------------------
+
+NOTE: The repack process might take up to 40 minutes. 
+
+
+
+##########          FLASH RBx DEVICE          ##########
+## On Ubuntu Host and On Ubuntu Docker ##
+1. Disconnect the device from PC before flashing full build, and follow the operation steps below:
+    1) Power off the device (unplug power cable and USB cable)
+    2) Plug in the power on device (12V)
+    3) Press and hold F_DL key, and connect board to PC via a type-C USB (It will switch the device to EDL mode)
+    4) Release F_DL key after the board is connected to PC
+    5) Start flashing process from the SDK manager (command 2: "Flash full build")
+    6) SDK manager will detect the device and start flash process automatically
+    7) Wait for the flashing process to be finished, the board will reboot automatically.
+
+2. Enter the command below in a new terminal window on Host PC after the device successfully boots up:
+$ adb wait-for-device shell
+
