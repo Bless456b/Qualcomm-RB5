@@ -6,7 +6,7 @@ Codename:	focal
 HENCE FOLLOWING STEPS IN MANUAL README_Linux.txt
 STEP 1: For Docker users on any Ubuntu Desktop (18.04, 16.04, etc.), please follow the guide in "On Other Ubuntu Host" for all sections. 
 STEP 2: Enter a work directory with read-write permissions for sdkmanager. For Docker image user, create the work directory under /home/hostPC/.
-STEP 3: If you are using a Linux desktop to flash the device, please run the following command before connecting the device to the desktop -  $ sudo systemctl stop ModemManager
+STEP 3: If you are using a Linux desktop to flash the device, please run the following command before connecting  the device to the desktop -  $ sudo systemctl stop ModemManager
 STEP 4: Installing packages : 
 For Robotics RB5 LU2.0 and RB5N LU2.0 Platform (required OS: Ubuntu 20.04)#
 Required packages (minimum version): coreutils 8.30, fakechroot 2.19, fakeroot 1.24, kmod 27-1ubuntu2.1, libc6-arm64-cross 2.31, python 2.7.18, qemu-user-static 1:7.2+dfsg-5ubuntu1, udev 245.4-4ubuntu3.20, unzip 6.0, wget 1.20.3.
